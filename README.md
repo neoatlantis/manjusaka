@@ -12,7 +12,8 @@ The generated single web page can then be put to e.g. somewhere on a personal
 website. The keys for reading such messages can be loaded into pre-written
 emails, which will be sent after online inactivity of the author exceeds.
 
-**You will need [Python](https://www.python.org) to run this program.**
+**You will need [Python](https://www.python.org) and [GPG](https://gnupg.org)
+to run this program.**
 
 
 ### Features(planned):
