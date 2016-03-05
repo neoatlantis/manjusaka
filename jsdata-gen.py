@@ -149,7 +149,7 @@ class TestamentParser:
         content = open(path, 'r').read()
         contentLines = [i.strip() for i in content.split('\n')]
         try:
-            endOfYaml = contentLines.index('...') + 1
+            endOfYaml = contentLines.index('...')
             yamlStr = '\n'.join(contentLines[:endOfYaml])
             bodyStr = '\n'.join(contentLines[endOfYaml+1:])
             meta = yaml.load(yamlStr)
