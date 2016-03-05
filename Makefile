@@ -1,5 +1,8 @@
 all: build/page.html
 
+clean:
+	rm -f build/*
+
 build/page.html: template.html build/data.js build/index.js html-gen.py
 	python html-gen.py
 
