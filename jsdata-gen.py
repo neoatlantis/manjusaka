@@ -65,7 +65,7 @@ class ACLManager:
             seed = base64.b32encode(os.urandom(20)).strip('=').lower()
             self.categoryPasswordSeeds[each] = {
                 "seed": seed,
-                "puzzle": hashlib.sha256(seed).hexdigest()[:16],
+                "puzzle": hashlib.sha256(seed).hexdigest()[:16].lower(),
             }
         
         # 3. Load QA definitions, generate and encrypt password seeds

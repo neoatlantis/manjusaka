@@ -1,19 +1,22 @@
 /* Interfaces to OpenPGP.js */
 
 var openpgp = require('./openpgp.min.js'),
-    u8ary = require('./uint8array.js');
+    u8ary = require('./uint8array.js'),
+    type = require('./type.js'),
+    encoding = require('./encoding');
 
 var sha256 = openpgp.crypto.hash.sha256;
 
-module.exports.decrypt = function decrypt(ciphertext, password){
+module.exports.decrypt = function(ciphertext, password){
     return openpgp.decrypt({
         message: openpgp.message.readArmored(ciphertext),
         password: password,
     });
 }
 
-var hmac = function hmac(message, key){
+var hmac = function(message, key){
     var blocksize = 64;
+    key = u8ary.copy(key);
     
     if(key.length > blocksize){
         key = sha256(key);
@@ -41,6 +44,15 @@ var hmac = function hmac(message, key){
         ])),
     ]));
 }
+module.exports.hmac = hmac;
+//console.log(hmac(new Uint8Array(1), new Uint8Array(1)))
 
 
-console.log(hmac(new Uint8Array(1), new Uint8Array(1)))
+
+
+var verifyCategoryPassword = function(hint, password){
+    var pwdhash = encoding(sha256(password)).toHEX().toLowerCase();
+    return pwdhash.slice(0, hint.length) == hint;
+}
+module.exports.verifyCategoryPassword = verifyCategoryPassword;
+//console.log(verifyCategoryPassword('9834876dcfb05cb1', 'aaa'));

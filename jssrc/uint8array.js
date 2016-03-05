@@ -33,9 +33,18 @@ function xor(a, b){
     return product;
 }
 
+function copy(b, begin, end){
+    var r = new Uint8Array(b.length);
+    if(!begin) begin = 0;
+    if(!end) end = b.length;
+    for(var i=begin; i<end; i++) r[i] = b[i];
+    return r;
+}
+
 module.exports = {
     concat: concat,
     equal: equal,
     fill: fill,
     xor: xor,
+    copy: copy,
 }
