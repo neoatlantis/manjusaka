@@ -2,3 +2,5 @@
 *.pyc
 messages/
 messages
+node_modules/
+build/

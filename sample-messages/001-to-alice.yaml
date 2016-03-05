@@ -1,0 +1,20 @@
+---
+#
+# category: specify in which category belongs this message
+# Messages under same category can be decrypted using the same key.
+# 
+# This argument is mandatory, and the value must correspond to one predefined
+# in `_acl.yaml`.
+category: friend
+
+#
+# questions: specify which question(s) the reader must answer correctly
+# before this message can be decrypted.
+#
+# This argument is optional, but if given, each question must correspond to
+# one question ID defined in `_acl.yaml`.
+questions:
+    - birthday
+...
+
+Test message body.
