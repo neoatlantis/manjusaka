@@ -1,0 +1,29 @@
+---
+#
+# List all categories for your messages. Your message MUST fall into one of
+# such categories. 
+#
+# CAUTION: Messages sharing same category can be decrypted using the same
+# decryption key. If you want to send individual messages to individuals only,
+# create individual categories for each of the message!
+categories:
+    - parent
+    - friend
+
+#
+# Define all possible questions and their answers.
+# 
+# Besides categories, you may also define questions requiring the reader to
+# answer, before they can actually read the messages. All possible questions
+# has to be firstly defined here and then used in your message sources.
+#
+# When possible, always use questions not so easily guessed. Asking on which
+# day in a year you were born requires 365 guesses, but on which weekday only
+# 7.
+qa:
+    birthday:
+        q: "My birthday?"
+        a: "1970-01-01"
+    id-number:
+        q: "My personal ID number?"
+        a: "0123456789ABCDEFG"

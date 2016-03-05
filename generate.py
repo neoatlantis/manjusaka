@@ -111,7 +111,7 @@ class ACLManager:
         # 4. Encrypt the message using key.
         ciphertext = gpgEncryptWithPassword(message, finalKey)
 
-        # 5. return (ciphertext, category-seed), where
+        # 5. return (ciphertext, category-seed)
         return (ciphertext, categoryPasswordSeed)
 
 
@@ -119,4 +119,4 @@ class ACLManager:
 
 acl = ACLManager(open('messages/_acl.yaml', 'r').read())
 
-print acl.encrypt('test', 'soulmate', ['birthday', 'id-number'])
+print acl.encrypt('test', 'friend', ['birthday', 'id-number'])
