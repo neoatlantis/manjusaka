@@ -42,7 +42,6 @@ module.exports.listNecessaryQuestions = function(){
 module.exports.verifyAnswerAsync = function(questionID, answer, callback){
     /* Verify answer to given question, callback(result) */
     var ciphertext = hints.qa[questionID].puzzle;
-    
     crypto.decrypt(ciphertext, answer, true).then(
         function success(plaintext){
             console.log("Answer is correct.");
@@ -55,4 +54,43 @@ module.exports.verifyAnswerAsync = function(questionID, answer, callback){
             callback(false);
         }
     );
+}
+
+// Message Decryptor
+
+function decryptMessage(index){
+    var message = messages[index];
+    var ciphertext = message.ciphertext;
+    var categoryPassword = categoryPasswords[message.category];
+    var requiredQuestions = message.questions;
+    var qaSeedsInfo = {}, questionID;
+    for(var i in requiredQuestions){
+        // gather all decrypted seeds in Question-Answer section for this
+        // message
+        questionID = requiredQuestions[i];
+        qaSeedsInfo[questionID] = qaSeeds[questionID];
+    }
+    var key = crypto.deriveDecryptionPassword(categoryPassword, qaSeedsInfo);
+    crypto.decrypt(ciphertext, key, false).then(function success(plaintext){
+        console.debug('Successfully decrypted one message.', plaintext);
+        messages[index].plaintext = plaintext.data;         
+    });
+}
+
+module.exports.reviewAndDecryptMessages = function(){
+    /* Review which messages are now decryptable, if so, decrypt them */
+    for(var i in messages){
+        var message = messages[i], allQuestionsAnswered = true;
+        if(message.plaintext) continue;
+        if(!categoryPasswords[message.category]) continue;
+        for(var j in message.questions){
+            if(!qaSeeds[message.questions[j]]){
+                allQuestionsAnswered = false;
+                break;
+            }
+        }
+        if(!allQuestionsAnswered) continue;
+
+        decryptMessage(i);
+    }
 }

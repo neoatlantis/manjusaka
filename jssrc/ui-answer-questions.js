@@ -6,9 +6,11 @@ function verifyAnswerFactory(qaID, questionID){
     function callback(passed){
         if(passed){
             $('#' + qaID).data('decided', true).hide();
+            decryptor.reviewAndDecryptMessages();
         }
     }
     return function verifyAnswer(){
+        if($('#' + qaID).data('decided')) return;
         var answer = $('#' + qaID + ' input').val();
         console.log(
             'verifying question[' + questionID + '] with answer:',
@@ -56,5 +58,6 @@ module.exports.show = function(){
             addOneQuestion(questionID, questions[questionID].q);
         }
     }
-    // TODO try first decryption, since some messages may not need questions
+    // try first decryption, since some messages may not need questions
+    decryptor.reviewAndDecryptMessages();
 }
