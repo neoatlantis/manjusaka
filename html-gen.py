@@ -6,14 +6,14 @@ import sys
 
 BASE = os.path.realpath(os.path.dirname(sys.argv[0]))
 
-jsdata = open(os.path.join(BASE, 'build', 'data.js'), 'r')
-jsscript = open(os.path.join(BASE, 'build', 'index.js'), 'r')
 
-def dumpFile(f, writeFunc):
+def dumpFile(filename, writeFunc):
+    f = open(filename, 'r')
     while True:
         data = f.read(65535)
         if not data: break
         writeFunc(data)
+    f.close()
 
 
 templateLines = [i.strip() for i in open(
@@ -26,10 +26,11 @@ splitLine = templateLines.index('<!-- INSERT SCRIPT HERE -->')
 beforeHTML = '\n'.join(templateLines[:splitLine])
 afterHTML = '\n'.join(templateLines[splitLine+1:])
 
-output = open(os.path.join(BASE, 'build', 'page.html'), 'w+')
-write = output.write
+
+write = sys.stdout.write
 write(beforeHTML)
-dumpFile(jsdata, write)
-dumpFile(jsscript, write)
+
+for each in sys.argv[1:]:
+    dumpFile(os.path.join(BASE, each), write)
+
 write(afterHTML)
-output.close()
