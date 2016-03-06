@@ -22,16 +22,29 @@
         background: #AAAAFF;
         color: #0000AA;
     }
-    #main{ display: none; }
 
-    #input-category-password input{
-        width: 100%;
+    .hidden { display: none; }
+
+    .form-control {
         border: #0000FF 1px solid;
         padding: 0.5em;
-        background: #EEEEFF;
+    }
+    input.form-control {
         color: #0000FF;
         font-family: monospace;
         text-align: center;
+        background: #EEEEFF;
+    }
+    button.form-control {
+        background: #0000CC;
+        color: #FFFFFF;
+    }
+    button.form-control[disabled="true"]{
+        color: #999999;
+    }
+
+    #input-category-password input{
+        width: 100%;
     }
 </style>
 </head>
@@ -49,7 +62,7 @@
     (3) 您没有关闭浏览器的JavaScript功能。
 </div>
 
-<div id="main">
+<div id="main" class="hidden">
 
     <div id="input-category-password" class="box info">
         <div>
@@ -57,7 +70,17 @@
         <p>
         请输入您收到的密码：
         </div>
-        <input type="text"/>
+        <input class="form-control" type="text"/>
+        <div>
+            Currently confirmed <span name="ack-count">0</span>
+            passwords. At least one password has to be confirmed to continue.
+            <br>
+            当前已经成功输入 <span name="ack-count">0</span> 条密码。
+            您需要至少输入一个密码才能继续。
+            <button name="continue" type="button" class="form-control" disabled="true">
+            Continue / 继续
+            </button>
+        </div>
     </div>
 
 
