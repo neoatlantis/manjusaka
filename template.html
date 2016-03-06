@@ -22,6 +22,11 @@
         background: #AAAAFF;
         color: #0000AA;
     }
+    .box.message {
+        border-color: #000000;
+        background: #FFCC00;
+        color: #000000;
+    }
 
     .hidden { display: none; }
 
@@ -45,7 +50,15 @@
     }
     textarea.form-control{
         width: 100%;
-        height: 10em;
+        height: 23em;
+    }
+
+    .message textarea{
+        background: #FFFFAA;
+        color: #000000;
+        border: none;
+        resize: none;
+        overflow-y: scroll;
     }
 </style>
 </head>
@@ -101,8 +114,8 @@
     </div>
 
 
-    <div name="result-template" class="hidden box info">
-        <textarea class="form-control">
+    <div name="result-template" class="hidden box message">
+        <textarea class="form-control" readonly="true">
         </textarea>
     </div>
     <div id="results" class="hidden">
