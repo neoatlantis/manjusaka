@@ -1,0 +1,13 @@
+---
+#
+# category: specify in which category belongs this message
+# Messages under same category can be decrypted using the same key.
+# 
+# This argument is mandatory, and the value must correspond to one predefined
+# in `_acl.yaml`.
+category: parent
+...
+
+This is a test message for parent.
+
+这是另一条测试消息，分类为 parent.
