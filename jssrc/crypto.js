@@ -3,7 +3,7 @@
 var openpgp = require('./openpgp.min.js'),
     u8ary = require('./uint8array.js'),
     type = require('./type.js'),
-    encoding = require('./encoding');
+    encoding = require('./encoding.js');
 
 var sha256 = openpgp.crypto.hash.sha256;
 

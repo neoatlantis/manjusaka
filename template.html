@@ -2,36 +2,64 @@
 <head>
 <meta charset="utf-8" />
 <style>
-    #loading {
-        border: #FF0000 1px dashed;
-        background: #FFCCCC;
-        padding: 1.5em;
-        margin: 1.5em;
+    .box {
+        border-width: 1px;
+        border-style: dashed;
+        padding: 2em;
+        margin: 2em;
         font-weight: bold;
         font-size: 12pt;
-        color: #AA0000;
         line-height: 2em;
+        font-family: monospace; 
+    }
+    .box.danger{
+        border-color: #FF0000;
+        background: #FFCCCC;
+        color: #AA0000;
+    }
+    .box.info{
+        border-color: #0000AA;
+        background: #AAAAFF;
+        color: #0000AA;
+    }
+    #main{ display: none; }
+
+    #input-category-password input{
+        width: 100%;
+        border: #0000FF 1px solid;
+        padding: 0.5em;
+        background: #EEEEFF;
+        color: #0000FF;
         font-family: monospace;
+        text-align: center;
     }
 </style>
 </head>
 <body>
 
-<div id="loading">
-
-    <div>
-        Loading all program and data. Please wait. If this has taken too long,
-        please check that (1) you're on good internet connection, (2) you're
-        using a modern web browser and (3) you haven't disabled JavaScript for
-        this webpage.
-    </div>
+<div id="loading" class="box danger">
+    Loading all program and data. Please wait. If this has taken too long,
+    please check that (1) you're on good internet connection, (2) you're
+    using a modern web browser and (3) you haven't disabled JavaScript for
+    this webpage.
     <p>
-    <div>
-        正在加载所有的代码和数据，请稍等。如果经过很长时间不出现，请检查
-        (1) 您的网络连接速度;
-        (2) 您正在使用一个较新版本的浏览器访问本页;
-        (3) 您没有关闭浏览器的JavaScript功能。
+    正在加载所有的代码和数据，请稍等。如果经过很长时间不出现，请检查
+    (1) 您的网络连接速度;
+    (2) 您正在使用一个较新版本的浏览器访问本页;
+    (3) 您没有关闭浏览器的JavaScript功能。
+</div>
+
+<div id="main">
+
+    <div id="input-category-password" class="box info">
+        <div>
+        Please input the password you've received:
+        <p>
+        请输入您收到的密码：
+        </div>
+        <input type="text"/>
     </div>
+
 
 </div>
 

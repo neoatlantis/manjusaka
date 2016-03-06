@@ -4,9 +4,9 @@ $(function(){
 
 var crypto = require('./crypto.js');
 
+require('./ui-input-category-password.js');
+require('./ui-init.js');
 
-
-$('#loading').hide();
 
 //////////////////////////////////////////////////////////////////////////////
 });
