@@ -25,5 +25,5 @@ qa:
         q: "My birthday?"
         a: "1970-01-01"
     id-number:
-        q: "My personal ID number?"
+        q: "My personal ID number? / 我的个人身份证编号是？"
         a: "0123456789ABCDEFG"

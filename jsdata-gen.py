@@ -50,12 +50,14 @@ class ACLManager:
         try:
             assert type(config["categories"]) == list
             assert type(config["qa"]) == dict
-            for each in config["categories"]: assert(type(each) == str)
+            for each in config["categories"]:
+                assert(type(each) in [str, unicode])
             for each in config["qa"]: 
-                assert type(each) == str
-                assert type(config["qa"][each]["q"]) == str
-                assert type(config["qa"][each]["a"]) == str
-        except:
+                assert type(each) in [str, unicode]
+                assert type(config["qa"][each]["q"]) in [str, unicode]
+                assert type(config["qa"][each]["a"]) in [str, unicode]
+        except Exception:
+            print config
             raise Exception("ACL configuration error.")
 
         # 2. Load categories and generate password seeds for them.
@@ -209,8 +211,7 @@ filelist = os.listdir(os.path.join(BASE, 'messages'))
 filelist = [i for i in filelist if i.endswith('.yaml') and i != '_acl.yaml']
 for filename in filelist:
     fullpath = os.path.join(BASE, 'messages', filename)
-    result = parser.process('messages/001-to-alice.yaml')
-
+    result = parser.process(fullpath)
     write(json.dumps(result) + ', ')
 
 write('];\n')

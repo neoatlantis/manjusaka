@@ -5,8 +5,8 @@
     .box {
         border-width: 1px;
         border-style: dashed;
-        padding: 2em;
-        margin: 2em;
+        padding: 1em;
+        margin: 0.25em;
         font-weight: bold;
         font-size: 12pt;
         line-height: 2em;
@@ -42,6 +42,10 @@
     }
     button.form-control[disabled="true"]{
         color: #999999;
+    }
+    textarea.form-control{
+        width: 100%;
+        height: 10em;
     }
 </style>
 </head>
@@ -97,6 +101,10 @@
     </div>
 
 
+    <div name="result-template" class="hidden box info">
+        <textarea class="form-control">
+        </textarea>
+    </div>
     <div id="results" class="hidden">
         <div>
         Following messages are for you.

@@ -11,8 +11,13 @@ function init(){
 decryptor.registerMessageDisplayer(function(message){
     init();
     
-    $('<div>')
+    $('[name="result-template"]')
+    .clone()
+    .attr('name', '')
     .appendTo('#results')
-    .text(message)
+    .show()
+    .find('textarea')
+        .val(message)
+        .parent()
     ;
 });

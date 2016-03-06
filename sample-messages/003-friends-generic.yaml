@@ -1,0 +1,19 @@
+---
+#
+# category: specify in which category belongs this message
+# Messages under same category can be decrypted using the same key.
+# 
+# This argument is mandatory, and the value must correspond to one predefined
+# in `_acl.yaml`.
+category: friend
+
+#
+# questions: specify which question(s) the reader must answer correctly
+# before this message can be decrypted.
+#
+# here we specify no questions for a generic message to all friends
+...
+
+This is a generic message for all friends.
+
+测试一个向所有 friends 分类发出的公共消息。

@@ -44,12 +44,12 @@ module.exports.verifyAnswerAsync = function(questionID, answer, callback){
     var ciphertext = hints.qa[questionID].puzzle;
     crypto.decrypt(ciphertext, answer, true).then(
         function success(plaintext){
-            console.log("Answer is correct.");
+            console.debug("Answer is correct.");
             qaSeeds[questionID] = plaintext.data;
             callback(true);
         },
         function failure(){
-            console.error("Answer is wrong.", arguments);
+            console.debug("Answer is wrong.", arguments);
             callback(false);
         }
     );

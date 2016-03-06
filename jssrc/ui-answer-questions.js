@@ -27,7 +27,7 @@ function verifyAnswerFactory(qaID, questionID){
     return function verifyAnswer(){
         if($('#' + qaID).data('decided')) return;
         var answer = $('#' + qaID + ' input').val();
-        console.log(
+        console.debug(
             'verifying question[' + questionID + '] with answer:',
             answer
         );
@@ -42,6 +42,7 @@ function verifyAnswerFactory(qaID, questionID){
 function skipQuestionFactory(qaID){
     return function skipQuestion(){
         $('#' + qaID).data('decided', true).hide();
+        reviewAnswerState();
     }
 }
 
@@ -49,6 +50,7 @@ function addOneQuestion(questionID, questionDesc){
     var qaID = 'qa-' + crypto.sha256hex(questionID);
     $('[name="answer-question-template"]')
     .clone()
+    .attr('name', '')
     .addClass('answer-question')
     .appendTo('#qa')
     .data('decided', false)
@@ -66,14 +68,21 @@ function addOneQuestion(questionID, questionDesc){
 }
 
 
+var init = false;
 module.exports.show = function(){
+    if(init) return;
+    
     var questions = decryptor.listNecessaryQuestions();
+    console.debug('Following questions required:', questions);
     if(Object.keys(questions).length > 0){
         $('#qa').show();
         for(var questionID in questions){
+            console.debug('Display question:', questionID);
             addOneQuestion(questionID, questions[questionID].q);
         }
     }
     // try first decryption, since some messages may not need questions
     reviewAnswerState();
+
+    init = true;
 }
