@@ -56,3 +56,35 @@ var verifyCategoryPassword = function(hint, password){
 }
 module.exports.verifyCategoryPassword = verifyCategoryPassword;
 //console.log(verifyCategoryPassword('9834876dcfb05cb1', 'aaa'));
+
+
+var deriveDecryptionPassword = function(
+    categoryPassword,
+    questionSeedInfo
+){
+    /* questionSeedInfo: {question-id1: seed1, question-id2: seed2} */
+    if(!questionSeedInfo) questionSeedInfo = {};
+    categoryPassword = encoding(categoryPassword, 'ascii').toUint8Array();
+
+    var questionIDs = Object.keys(questionSeedInfo);
+    questionIDs.sort();
+
+    var questionSeeds = [];
+    for(var i in questionIDs){
+        questionSeeds.push(questionSeedInfo[questionIDs[i]]);
+    }
+
+    var hmacs = [];
+    for(var i in questionSeeds){
+        hmacs.push(hmac(categoryPassword, questionSeeds[i]));
+    }
+
+    var finalKey = encoding(hmac(
+        categoryPassword,
+        u8ary.concat(hmacs)
+    )).toHEX().toLowerCase();
+    return finalKey;
+}
+module.exports.deriveDecryptionPassword = deriveDecryptionPassword;
+//console.log(deriveDecryptionPassword('test', {question: new Uint8Array(4)}));
+

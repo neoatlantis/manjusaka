@@ -97,7 +97,7 @@ class ACLManager:
             )
         categoryPasswordSeed = self.categoryPasswordSeeds[category]["seed"]
 
-        # 2. Gather seeds determined by questions, and sort by question ID
+        # 2. Gather seeds determined by questions
         questionGathered = []
         for questionID in questions:
             if not self.qa.has_key(questionID):
@@ -106,7 +106,6 @@ class ACLManager:
                 )
             questionProfile = self.qa[questionID]
             questionGathered.append((questionID, questionProfile))
-        questionGathered.sort(key=lambda i: i[0]) # sort questions by their ID
 
         # 3. Generate encryption passphrase for message. This is done by (1)
         #    calculating HMACs using each question's seed as key against the
@@ -118,6 +117,7 @@ class ACLManager:
         #    a proof of knowledge of all seeds, and (2) just makes sure the
         #    output consisting of both category-seed and question-seed and is
         #    in HEX format.
+        questionGathered.sort(key=lambda i: i[0]) # sort questions by their ID
         questionSeeds = [i[1]["seed"] for i in questionGathered]
         hmacs = [hmac.HMAC(
             s,
