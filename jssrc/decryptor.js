@@ -46,7 +46,6 @@ module.exports.verifyAnswerAsync = function(questionID, answer, callback){
         function success(plaintext){
             console.log("Answer is correct.");
             qaSeeds[questionID] = plaintext.data;
-            console.debug(questionID, plaintext.data);
             callback(true);
         },
         function failure(){

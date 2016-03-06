@@ -9,7 +9,6 @@ function init(){
 }
 
 decryptor.registerMessageDisplayer(function(message){
-    console.log(message);
     init();
     
     $('<div>')
