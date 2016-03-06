@@ -22,6 +22,8 @@ module.exports.countCategoryPasswords = function(){
 
 // Question Answer Collector
 
+var qaSeeds = {};
+
 module.exports.listNecessaryQuestions = function(){
     var ret = {}, message;
     for(var i in messages){
@@ -35,4 +37,22 @@ module.exports.listNecessaryQuestions = function(){
         ret[i] = hints.qa[i];
     }
     return ret;
+}
+
+module.exports.verifyAnswerAsync = function(questionID, answer, callback){
+    /* Verify answer to given question, callback(result) */
+    var ciphertext = hints.qa[questionID].puzzle;
+    
+    crypto.decrypt(ciphertext, answer, true).then(
+        function success(plaintext){
+            console.log("Answer is correct.");
+            qaSeeds[questionID] = plaintext.data;
+            console.debug(questionID, plaintext.data);
+            callback(true);
+        },
+        function failure(){
+            console.error("Answer is wrong.", arguments);
+            callback(false);
+        }
+    );
 }

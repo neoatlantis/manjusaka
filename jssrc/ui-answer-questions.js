@@ -2,23 +2,48 @@ var $ = require('jquery');
 var decryptor = require('./decryptor.js'),
     crypto = require('./crypto.js');
 
-function verifyAnswer(){
+function verifyAnswerFactory(qaID, questionID){
+    function callback(passed){
+        if(passed){
+            $('#' + qaID).data('decided', true).hide();
+        }
+    }
+    return function verifyAnswer(){
+        var answer = $('#' + qaID + ' input').val();
+        console.log(
+            'verifying question[' + questionID + '] with answer:',
+            answer
+        );
+        decryptor.verifyAnswerAsync(
+            questionID,
+            answer,
+            callback
+        );
+    }
 }
 
-function skipQuestion(){
+function skipQuestionFactory(qaID){
+    return function skipQuestion(){
+        $('#' + qaID).data('decided', true).hide();
+    }
 }
 
 function addOneQuestion(questionID, questionDesc){
+    var qaID = 'qa-' + crypto.sha256hex(questionID);
     $('[name="answer-question-template"]')
     .clone()
     .appendTo('#qa')
-    .attr('id', 'qa-' + crypto.sha256hex(questionID))
+    .data('decided', false)
+    .attr('id', qaID)
     .show()
     .find('[name="desc"]')
         .text(questionDesc)
-        .on('change focusout', verifyAnswer)
         .parent()
-    .find('button[name="skip"]').click(skipQuestion)
+    .find('button[name="skip"]').click(skipQuestionFactory(qaID))
+        .parent()
+    .find('input')
+        .on('change focusout', verifyAnswerFactory(qaID, questionID))
+        .parent()
     ;
 }
 

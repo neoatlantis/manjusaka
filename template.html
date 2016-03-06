@@ -34,6 +34,7 @@
         font-family: monospace;
         text-align: center;
         background: #EEEEFF;
+        width: 100%;
     }
     button.form-control {
         background: #0000CC;
@@ -41,10 +42,6 @@
     }
     button.form-control[disabled="true"]{
         color: #999999;
-    }
-
-    #input-category-password input{
-        width: 100%;
     }
 </style>
 </head>
@@ -86,6 +83,7 @@
     
     <div name="answer-question-template" class="hidden box info">
         <div name="desc"></div>
+        <input class="form-control" type="text"/>
         <button name="skip" type="button" class="form-control">Skip / 跳过</button>
     </div>
     <div id="qa" class="hidden">

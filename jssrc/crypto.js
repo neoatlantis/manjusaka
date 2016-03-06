@@ -11,10 +11,12 @@ module.exports.sha256hex = function(i){
     return encoding(sha256(i)).toHEX();
 }
 
-module.exports.decrypt = function(ciphertext, password){
+module.exports.decrypt = function(ciphertext, password, binaryOutput){
+    binaryOutput = Boolean(binaryOutput);
     return openpgp.decrypt({
         message: openpgp.message.readArmored(ciphertext),
         password: password,
+        format: (binaryOutput?'binary':undefined),
     });
 }
 
