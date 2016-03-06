@@ -89,6 +89,12 @@ class ACLManager:
             }
         return { 'categories': categories, 'qa': qa }
 
+    def showSeeds(self):
+        ret = {}
+        for each in self.categoryPasswordSeeds:
+            ret[each] = self.categoryPasswordSeeds[each]["seed"]
+        return ret
+
     def encrypt(self, message, category, questions=[]):
         # 1. Find category determined password seed
         if not self.categoryPasswordSeeds.has_key(category):
@@ -211,3 +217,9 @@ write('];\n')
 # ---- close file
 
 outputFile.close()
+
+# ---- show seeds
+
+seeds = acl.showSeeds()
+for each in seeds:
+    print "%20s -> %s" % (each, seeds[each])

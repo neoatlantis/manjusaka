@@ -1,11 +1,21 @@
 var crypto = require('./crypto.js');
 
+var categoryPasswords = {};
+
 
 
 module.exports.testCategoryPassword = function(password){
-    return true;
+    var puzzle;
+    for(var categoryID in hints.categories){
+        puzzle = hints.categories[categoryID];
+        if(crypto.verifyCategoryPassword(puzzle, password)){
+            categoryPasswords[categoryID] = password;
+            return true;
+        }
+    }
+    return false;
 }
 
 module.exports.countCategoryPasswords = function(){
-    return 1;
+    return Object.keys(categoryPasswords).length;
 }
