@@ -2,11 +2,26 @@ var $ = require('jquery');
 var decryptor = require('./decryptor.js'),
     crypto = require('./crypto.js');
 
+function reviewAnswerState(){
+    /* Review if currently all questions are decided, and process any related
+     * tasks, e.g. ask decryptor to review its state. */
+    var allAnswered = true;
+    $('#qa .answer-question').each(function(){
+        if(!$(this).data('decided')) allAnswered = false;
+    });
+    if(allAnswered){
+        $('#qa').hide();
+    }
+    decryptor.reviewAndDecryptMessages();
+}
+
+
+
 function verifyAnswerFactory(qaID, questionID){
     function callback(passed){
         if(passed){
             $('#' + qaID).data('decided', true).hide();
-            decryptor.reviewAndDecryptMessages();
+            reviewAnswerState();
         }
     }
     return function verifyAnswer(){
@@ -34,6 +49,7 @@ function addOneQuestion(questionID, questionDesc){
     var qaID = 'qa-' + crypto.sha256hex(questionID);
     $('[name="answer-question-template"]')
     .clone()
+    .addClass('answer-question')
     .appendTo('#qa')
     .data('decided', false)
     .attr('id', qaID)
@@ -59,5 +75,5 @@ module.exports.show = function(){
         }
     }
     // try first decryption, since some messages may not need questions
-    decryptor.reviewAndDecryptMessages();
+    reviewAnswerState();
 }

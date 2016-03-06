@@ -58,6 +58,12 @@ module.exports.verifyAnswerAsync = function(questionID, answer, callback){
 
 // Message Decryptor
 
+var messageDisplayers = [];
+module.exports.registerMessageDisplayer = function(f){
+    messageDisplayers.push(f);
+}
+    
+
 function decryptMessage(index){
     var message = messages[index];
     var ciphertext = message.ciphertext;
@@ -72,8 +78,9 @@ function decryptMessage(index){
     }
     var key = crypto.deriveDecryptionPassword(categoryPassword, qaSeedsInfo);
     crypto.decrypt(ciphertext, key, false).then(function success(plaintext){
-        console.debug('Successfully decrypted one message.', plaintext);
-        messages[index].plaintext = plaintext.data;         
+        console.debug('Successfully decrypted one message.');
+        messages[index].plaintext = true; // plaintext.data;
+        for(var i in messageDisplayers) messageDisplayers[i](plaintext.data);
     });
 }
 
