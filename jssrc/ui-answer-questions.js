@@ -1,4 +1,4 @@
-var $ = require('jquery');
+var $ = require('./jquery.js');
 var decryptor = require('./decryptor.js'),
     crypto = require('./crypto.js');
 

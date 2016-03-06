@@ -1,4 +1,4 @@
-var $ = require('jquery'),
+var $ = require('./jquery.js'),
     decryptor = require('./decryptor.js');
 
 var selBase = '#input-category-password';
