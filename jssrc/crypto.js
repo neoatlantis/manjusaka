@@ -7,6 +7,10 @@ var openpgp = require('./openpgp.min.js'),
 
 var sha256 = openpgp.crypto.hash.sha256;
 
+module.exports.sha256hex = function(i){
+    return encoding(sha256(i)).toHEX();
+}
+
 module.exports.decrypt = function(ciphertext, password){
     return openpgp.decrypt({
         message: openpgp.message.readArmored(ciphertext),
