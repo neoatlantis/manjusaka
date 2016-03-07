@@ -23,7 +23,10 @@ def gpgEncryptWithPassword(message, password):
         '--armor',
         '--symmetric',
         '--cipher-algo', 'AES',
-        '--compress-algo', 'zlib', # or try 'none'
+        '--compress-algo', 'zlib',
+        '--s2k-digest-algo', 'SHA256',
+        '--s2k-mode', '3',
+        '--s2k-count', '10000000',
         '--passphrase', password,
     ]
     proc = subprocess.Popen(
