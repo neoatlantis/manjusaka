@@ -26,7 +26,8 @@ var hmac = function(message, key){
     
     if(key.length > blocksize){
         key = sha256(key);
-    } else {
+    }
+    if(key.length < blocksize){
         key = u8ary.concat([
             key,
             u8ary.fill(new Uint8Array(blocksize - key.length), 0)
@@ -89,6 +90,7 @@ var deriveDecryptionPassword = function(
         categoryPassword,
         u8ary.concat(hmacs)
     )).toHEX().toLowerCase();
+
     return finalKey;
 }
 module.exports.deriveDecryptionPassword = deriveDecryptionPassword;

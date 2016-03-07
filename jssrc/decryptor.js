@@ -64,6 +64,7 @@ module.exports.registerMessageDisplayer = function(f){
     
 
 function decryptMessage(index){
+    console.debug("Try to decrypt message No.", index);
     var message = messages[index];
     var ciphertext = message.ciphertext;
     var categoryPassword = categoryPasswords[message.category];
@@ -75,12 +76,21 @@ function decryptMessage(index){
         questionID = requiredQuestions[i];
         qaSeedsInfo[questionID] = qaSeeds[questionID];
     }
+    //console.log(categoryPassword, qaSeedsInfo);
     var key = crypto.deriveDecryptionPassword(categoryPassword, qaSeedsInfo);
-    crypto.decrypt(ciphertext, key, false).then(function success(plaintext){
-        console.debug('Successfully decrypted one message.');
-        messages[index].plaintext = true; // plaintext.data;
-        for(var i in messageDisplayers) messageDisplayers[i](plaintext.data);
-    });
+    //console.log(ciphertext, key);
+    crypto.decrypt(ciphertext, key, false).then(
+        function success(plaintext){
+            console.debug('Successfully decrypted one message.');
+            messages[index].plaintext = true; // plaintext.data;
+            for(var i in messageDisplayers){
+                messageDisplayers[i](plaintext.data);
+            }
+        },
+        function failure(e){
+            console.error('Failed decrypting message.', e);
+        }
+    );
 }
 
 module.exports.reviewAndDecryptMessages = function(){
