@@ -59,6 +59,10 @@ class ACLManager:
                 assert type(each) in [str, unicode]
                 assert type(config["qa"][each]["q"]) in [str, unicode]
                 assert type(config["qa"][each]["a"]) in [str, unicode]
+                if(config["qa"][each].has_key("eg")):
+                    assert type(config["qa"][each]["eg"]) in [str, unicode]
+                else:
+                    config["qa"][each]["eg"] = ''
         except Exception:
             print config
             raise Exception("ACL configuration error.")
@@ -83,6 +87,7 @@ class ACLManager:
                 self.qa[each]["a"] # encrypt with 'a'-answer
             )
 
+
     def hints(self):
         categories = {}
         for each in self.categoryPasswordSeeds: 
@@ -90,6 +95,7 @@ class ACLManager:
         qa = {}
         for each in self.qa:
             qa[each] = {
+                "eg": self.qa[each]["eg"],
                 "q": self.qa[each]["q"],
                 "puzzle": self.qa[each]["puzzle"]
             }

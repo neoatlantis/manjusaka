@@ -24,6 +24,7 @@ qa:
     birthday:
         q: "My birthday?"
         a: "1970-01-01"
+        eg: "YYYY-MM-DD" # You may write a hint here, optionally
     id-number:
         q: "My personal ID number? / 我的个人身份证编号是？"
         a: "0123456789ABCDEFG"

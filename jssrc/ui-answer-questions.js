@@ -46,7 +46,7 @@ function skipQuestionFactory(qaID){
     }
 }
 
-function addOneQuestion(questionID, questionDesc){
+function addOneQuestion(questionID, questionDesc, questionExample){
     var qaID = 'qa-' + crypto.sha256hex(questionID);
     $('[name="answer-question-template"]')
     .clone()
@@ -63,6 +63,7 @@ function addOneQuestion(questionID, questionDesc){
         .parent()
     .find('input')
         .on('change focusout', verifyAnswerFactory(qaID, questionID))
+        .attr('placeholder', (questionExample?questionExample:''))
         .parent()
     ;
 }
@@ -78,7 +79,11 @@ module.exports.show = function(){
         $('#qa').show();
         for(var questionID in questions){
             console.debug('Display question:', questionID);
-            addOneQuestion(questionID, questions[questionID].q);
+            addOneQuestion(
+                questionID, 
+                questions[questionID].q,
+                questions[questionID].eg
+            );
         }
     }
     // try first decryption, since some messages may not need questions
