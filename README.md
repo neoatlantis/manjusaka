@@ -17,12 +17,28 @@ emails, which will be sent after online inactivity of the author exceeds.
 To run this program, you need to:
 
 * Use a Linux distribution.
-* Be able to run `python`, `gpg` and `make` commands(most Linux distros have
-  already got them as default).
+* Following commands should be available in shell:
+   * `python`, `gpg`, `make`
+   * `git`
+   * `browserify` and `uglify` (This could be removed in the future).
 
-### Features(planned):
+### Usage
 
-* YAML-formatted testament input, with customization on catalog and required
-  questions.
+0. `git clone https://github.com/neoatlantis/manjusaka`
+0. `cd` into the `sample-messages/` and read the examples.
+0. `cd ..` and create a `messages/` directory on the same level as of
+   `sample-message`, i.e. on the root directory of this project.
+0. define your own ACL rules(see `sample-messages/_acl.yaml`) in `messages/`
+   dir, and write your other testaments in the same dir with `.yaml` suffix.
+0. use `make test` to make fastly but a large composed webpage(`build/page.html`).
+   Or use `make` directly to make a compressed one(`build/page.min.html`).
+0. **remember** write down the passwords the program have given to you after
+   `make`. Put them in emails that should be scheduled for sending after death.
+0. you can now load the webpage and test that with passwords and Q&As.
+0. if everything is fine, publish the page wherever you want, maybe the blog?
+
+
+### Planned
+
 * GPG signature for each testament.
 * Multi-language support.
