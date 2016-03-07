@@ -22,6 +22,10 @@ To run this program, you need to:
    * `git`
    * `browserify` and `uglify` (This could be removed in the future).
 
+And for best performance, you should use a computer as modern as possible,
+since we, out of security reasons, used some large parameters for algorithms,
+which could make the entire process very slow on old computers.
+
 ### Usage
 
 0. `git clone https://github.com/neoatlantis/manjusaka`
