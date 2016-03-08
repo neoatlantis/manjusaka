@@ -46,12 +46,16 @@
         background: #0000CC;
         color: #FFFFFF;
     }
-    button.form-control[disabled="true"]{
-        color: #999999;
-    }
     textarea.form-control{
         width: 100%;
         height: 23em;
+    }
+
+    .form-control[disabled="true"]{ color: #999999; }
+    .form-control.incorrect{
+        border-color: #FF0000 !important;
+        background: #FFAAAA !important;
+        color: #000000 !important;
     }
 
     .message textarea{

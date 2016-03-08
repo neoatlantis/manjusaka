@@ -16,17 +16,31 @@ function reviewAnswerState(){
 }
 
 
+function onInputKeypressFactory(qaID){
+    var rootSel = '#' + qaID, inputSel = rootSel + ' input';
+    return function(){
+        $(inputSel)
+        .removeClass('incorrect')
+        .data('verify-done', false)
+        ;
+    }
+}
 
 function verifyAnswerFactory(qaID, questionID){
+    var rootSel = '#' + qaID, inputSel = rootSel + ' input';
     function callback(passed){
+        $(inputSel).data('verify-done', true).attr('disabled', false);
         if(passed){
-            $('#' + qaID).data('decided', true).hide();
+            $(rootSel).data('decided', true).hide();
             reviewAnswerState();
+        } else {
+            $(inputSel).addClass('incorrect');
         }
     }
     return function verifyAnswer(){
-        if($('#' + qaID).data('decided')) return;
-        var answer = $('#' + qaID + ' input').val();
+        if($(rootSel).data('decided')) return;
+        if($(inputSel).data('verify-done')) return;
+        var answer = $(inputSel).attr('disabled', true).val();
         console.debug(
             'verifying question[' + questionID + '] with answer:',
             answer
@@ -62,6 +76,7 @@ function addOneQuestion(questionID, questionDesc, questionExample){
     .find('button[name="skip"]').click(skipQuestionFactory(qaID))
         .parent()
     .find('input')
+        .on('keypress', onInputKeypressFactory(qaID))
         .on('change focusout', verifyAnswerFactory(qaID, questionID))
         .attr('placeholder', (questionExample?questionExample:''))
         .parent()
