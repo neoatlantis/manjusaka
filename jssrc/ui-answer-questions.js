@@ -18,10 +18,9 @@ function reviewAnswerState(){
 
 function onInputKeypressFactory(qaID){
     var rootSel = '#' + qaID, inputSel = rootSel + ' input';
-    return function(){
+    return function(e){
         $(inputSel)
         .removeClass('incorrect')
-        .data('verify-done', false)
         ;
     }
 }
@@ -29,7 +28,7 @@ function onInputKeypressFactory(qaID){
 function verifyAnswerFactory(qaID, questionID){
     var rootSel = '#' + qaID, inputSel = rootSel + ' input';
     function callback(passed){
-        $(inputSel).data('verify-done', true).attr('disabled', false);
+        $(inputSel).attr('disabled', false);
         if(passed){
             $(rootSel).data('decided', true).hide();
             reviewAnswerState();
@@ -39,7 +38,6 @@ function verifyAnswerFactory(qaID, questionID){
     }
     return function verifyAnswer(){
         if($(rootSel).data('decided')) return;
-        if($(inputSel).data('verify-done')) return;
         var answer = $(inputSel).attr('disabled', true).val();
         console.debug(
             'verifying question[' + questionID + '] with answer:',
@@ -77,7 +75,7 @@ function addOneQuestion(questionID, questionDesc, questionExample){
         .parent()
     .find('input')
         .on('keypress', onInputKeypressFactory(qaID))
-        .on('change focusout', verifyAnswerFactory(qaID, questionID))
+        .on('change', verifyAnswerFactory(qaID, questionID))
         .attr('placeholder', (questionExample?questionExample:''))
         .parent()
     ;
