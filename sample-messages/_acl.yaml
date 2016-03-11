@@ -1,5 +1,17 @@
 ---
 #
+# Safety Pin
+#
+# This password can be made easy-to-remember. It services like a security pin,
+# blocking the KDF procedure in calculating the decryption key. Therefore if
+# kept secret, it shall prevent brute-force guesses for getting an answer
+# out of a question(which may leak your privacy).
+#
+# XXX XXX CAUTION: currently not implemented. This option can be ignored.
+safety-pin: pin
+
+
+#
 # List all categories for your messages. Your message MUST fall into one of
 # such categories. 
 #
@@ -19,6 +31,7 @@ categories:
 # want to leave a password for another category within a decrypted message.
 category-passwords:
     test: test  # so the password for category `test` is always `test`
+
 
 #
 # Define all possible questions and their answers.
