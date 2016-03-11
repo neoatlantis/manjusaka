@@ -63,6 +63,11 @@ class ACLManager:
                     assert type(config["qa"][each]["eg"]) in [str, unicode]
                 else:
                     config["qa"][each]["eg"] = ''
+            if config.has_key('category-passwords'):
+                assert type(config["category-passwords"]) == dict
+                for each in config["category-passwords"]:
+                    assert type(config["category-passwords"][each])\
+                        in [str, unicode]
         except Exception:
             print config
             raise Exception("ACL configuration error.")
@@ -71,8 +76,14 @@ class ACLManager:
         #    Notice that human-readable form will be directly feed to
         #    GPG(instead of feeding raw bytes).
         self.categoryPasswordSeeds = {}
+        predefinedCategoryPasswordSeeds = {}
+        if config.has_key('category-passwords'):
+            predefinedCategoryPasswordSeeds = config['category-passwords']
         for each in config["categories"]:
-            seed = base64.b32encode(os.urandom(20)).strip('=').lower()
+            if predefinedCategoryPasswordSeeds.has_key(each):
+                seed = predefinedCategoryPasswordSeeds[each]
+            else:
+                seed = base64.b32encode(os.urandom(20)).strip('=').lower()
             self.categoryPasswordSeeds[each] = {
                 "seed": seed,
                 "puzzle": hashlib.sha256(seed).hexdigest()[:16].lower(),

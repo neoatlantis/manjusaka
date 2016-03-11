@@ -7,8 +7,18 @@
 # decryption key. If you want to send individual messages to individuals only,
 # create individual categories for each of the message!
 categories:
+    - test
     - parent
     - friend
+
+#
+# Normally, passwords for a given category is generated during building process
+# randomly. You may also specify some predefined passwords. Between different
+# builds, these passwords will not change. It is useful if you don't really
+# want to restrict the entrance for a specified category, or in cases that you
+# want to leave a password for another category within a decrypted message.
+category-passwords:
+    test: test  # so the password for category `test` is always `test`
 
 #
 # Define all possible questions and their answers.
