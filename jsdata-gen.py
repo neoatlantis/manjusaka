@@ -14,6 +14,30 @@ import sys
 import yaml
 
 
+# ---- Funciton for obscuring the category and question ID
+
+categoryIDDict, questionIDDict = {}, {}
+
+def obscureCategoryID(categoryID):
+    global categoryIDDict
+    if categoryIDDict.has_key(categoryID): return categoryIDDict[categoryID]
+    categoryIDDict[categoryID] = hmac.HMAC(
+        'category',
+        categoryID,
+        hashlib.sha256
+    ).hexdigest()[:32]
+    return categoryIDDict[categoryID]
+    
+def obscureQuestionID(questionID):
+    global questionIDDict
+    if questionIDDict.has_key(questionID): return questionIDDict[questionID]
+    questionIDDict[questionID] = hmac.HMAC(
+        'question',
+        questionID,
+        hashlib.sha256
+    ).hexdigest()[:32]
+    return questionIDDict[questionID]
+
 
 # ---- Function for calling GPG encryption
 
@@ -84,18 +108,21 @@ class ACLManager:
                 seed = predefinedCategoryPasswordSeeds[each]
             else:
                 seed = base64.b32encode(os.urandom(20)).strip('=').lower()
-            self.categoryPasswordSeeds[each] = {
+            self.categoryPasswordSeeds[obscureCategoryID(each)] = {
+                "name": each,
                 "seed": seed,
                 "puzzle": hashlib.sha256(seed).hexdigest()[:16].lower(),
             }
         
         # 3. Load QA definitions, generate and encrypt password seeds
-        self.qa = config["qa"]
-        for each in self.qa:
-            self.qa[each]["seed"] = os.urandom(16)
-            self.qa[each]["puzzle"] = gpgEncryptWithPassword(
-                self.qa[each]["seed"],
-                self.qa[each]["a"] # encrypt with 'a'-answer
+        self.qa = {} 
+        for each in config["qa"]:
+            questionID = obscureQuestionID(each)
+            self.qa[questionID] = config["qa"][each]
+            self.qa[questionID]["seed"] = os.urandom(16)
+            self.qa[questionID]["puzzle"] = gpgEncryptWithPassword(
+                self.qa[questionID]["seed"],
+                self.qa[questionID]["a"] # encrypt with 'a'-answer
             )
 
 
@@ -115,11 +142,13 @@ class ACLManager:
     def showSeeds(self):
         ret = {}
         for each in self.categoryPasswordSeeds:
-            ret[each] = self.categoryPasswordSeeds[each]["seed"]
+            originalName = self.categoryPasswordSeeds[each]["name"]
+            ret[originalName] = self.categoryPasswordSeeds[each]["seed"]
         return ret
 
     def encrypt(self, message, category, questions=[]):
         # 1. Find category determined password seed
+        category = obscureCategoryID(category)
         if not self.categoryPasswordSeeds.has_key(category):
             raise Exception(\
                 "Category [%s] not defined in ACL profile." % category
@@ -128,7 +157,8 @@ class ACLManager:
 
         # 2. Gather seeds determined by questions
         questionGathered = []
-        for questionID in questions:
+        for plainQuestionID in questions:
+            questionID = obscureQuestionID(plainQuestionID)
             if not self.qa.has_key(questionID):
                 raise Exception(\
                     "Question [%s] not defined in ACL profile." % questionID
@@ -197,8 +227,8 @@ class TestamentParser:
         ciphertext = acl.encrypt(bodyStr, category, questions)
         return {
             "ciphertext": ciphertext,
-            "category": category,
-            "questions": questions,
+            "category": obscureCategoryID(category),
+            "questions": [obscureQuestionID(i) for i in questions],
         }
 
 
