@@ -21,21 +21,13 @@ categoryIDDict, questionIDDict = {}, {}
 def obscureCategoryID(categoryID):
     global categoryIDDict
     if categoryIDDict.has_key(categoryID): return categoryIDDict[categoryID]
-    categoryIDDict[categoryID] = hmac.HMAC(
-        'category',
-        categoryID,
-        hashlib.sha256
-    ).hexdigest()[:32]
+    categoryIDDict[categoryID] = base64.b64encode(os.urandom(20)).strip('=')
     return categoryIDDict[categoryID]
     
 def obscureQuestionID(questionID):
     global questionIDDict
     if questionIDDict.has_key(questionID): return questionIDDict[questionID]
-    questionIDDict[questionID] = hmac.HMAC(
-        'question',
-        questionID,
-        hashlib.sha256
-    ).hexdigest()[:32]
+    questionIDDict[questionID] = base64.b64encode(os.urandom(20)).strip('=')
     return questionIDDict[questionID]
 
 
@@ -274,4 +266,4 @@ outputFile.close()
 
 seeds = acl.showSeeds()
 for each in seeds:
-    print "%20s -> %s" % (each, seeds[each])
+    print "%25s -> %s" % (each, seeds[each])
