@@ -58,8 +58,13 @@ module.exports.hmac = hmac;
 
 
 var verifyCategoryPassword = function(hint, password){
-    var pwdhash = encoding(sha256(password)).toHEX().toLowerCase();
-    return pwdhash.slice(0, hint.length) == hint;
+    try{
+        var pwdhash = encoding(sha256(password)).toHEX().toLowerCase();
+        return pwdhash.slice(0, hint.length) == hint;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
 }
 module.exports.verifyCategoryPassword = verifyCategoryPassword;
 //console.log(verifyCategoryPassword('9834876dcfb05cb1', 'aaa'));
