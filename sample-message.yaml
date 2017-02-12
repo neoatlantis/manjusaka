@@ -1,0 +1,99 @@
+# An example file for Project Manjusaka
+# =====================================
+# This is an example file for leaving your own message. It shows at first how
+# to define comments(which are meaningful only to humans), and then the
+# questions, categories and messages.
+#
+# This file is the only required input for generating an encrypted message. For
+# such purpose, use a modern browser with JavaScript enabled, load the
+# `generate.html` and copy-paste this file into it as instructed.
+#
+# * Study the file format, and you should understand it easily.
+# * The file should be written in UTF-8 encoding.
+##############################################################################
+# Global Configuration. This section can only appear once.
+---
+configure:
+security-pin:
+    # Security Pin are initial passwords required to unlock the whole message
+    # file. It is defined in a `dependency tree` style, which is made up of
+    # arrays.
+    #   Array can be nested, each item can be either a string, or another
+    # array. All arrays must begin with either `with-all-of` or `with-one-of`,
+    # which represents the logic: using `with-all-of`, you must successfully
+    # provide all credentials listed in this level; where in `with-one-of`
+    # one successful answer is sufficient.
+    #   To make this clear, consider following example:
+    - with-all-of
+    - "blindpassword-friend-alice"
+    - "blindpassword-friend-bob"
+    -
+        - with-one-of
+        - "blindpassword-mother"
+        - "blindpassword-father"
+    # this will require 3 inputs to start the whole decrypting process:
+    #   1. `blindpassword-friend-alice`, which might be typed in by friend
+    #   Alice,
+    #   2. `blindpassword-friend-bob`, given by Bob,
+    #   3. and another input from either mother or father.
+
+##############################################################################
+# Blind Passwords
+#   ...are static passwords without hints, can be entered in arbitary order. If
+#   any input was verified as a blind password, it will be recorded for further
+#   decryption.
+#     You may predefine the content of a password(for ease to memorize), or let
+#   the system choose it randomly. Note you have to choose a strong password,
+#   otherwise it will be easy to crack it using brute force.
+---
+name: blindpassword-friend-alice # a name for organizing logics, will be
+                                 # discarded in final output
+blind: # leave empty, let system choose a random one on page generation
+---
+name: blindpassword-friend-bob
+blind:
+---
+name: blindpassword-mother
+blind: Love4youMother # define this, and it will be a static password
+---
+name: blindpassword-father
+blind: LoveYou4everFather
+
+##############################################################################
+---
+name: one-plus-one          # this is the name used for refering this question
+
+question: 1+1=?             # this will be displayed to the future decrypter
+answer:   2                 # this will be the passphrase required
+hint: Enter numerical character
+                            # hint is the text displayed telling the decrypter
+                            # how to enter the answer correctly.
+
+---
+name: two-times-three       # we define another question using another name
+
+question: "2 x 3 = ?"
+answer: six
+hint: Enter a english word.
+
+---
+name: integral-sinx
+
+question: Integrate sin(x) from 0 to pi, and you get...
+answer: 2
+hint: Enter numerical character only
+
+---
+name: ultimate
+
+question: |
+    What is the Answer to the Ultimate Question of Life, The Universe, and
+    Everything?
+answer: 42
+# with no hints!
+
+---
+
+##############################################################################
+
+

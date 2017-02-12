@@ -1,14 +1,26 @@
-/* Interfaces to OpenPGP.js */
 
-var openpgp = require('./openpgp.min.js'),
-    u8ary = require('./uint8array.js'),
+var nacl = require('tweetnacl'),
     type = require('./type.js'),
     encoding = require('./encoding.js');
+nacl.util = require('tweetnacl-util');
 
-var sha256 = openpgp.crypto.hash.sha256;
 
-module.exports.sha256hex = function(i){
-    return encoding(sha256(i)).toHEX();
+module.exports.randomKey = function(){
+    return nacl.util.encodeBase64(nacl.randomBytes(16));
+}
+
+module.exports.hash = function hash(i){
+    if(type(i).isString()){
+        i = nacl.util.decodeUTF8(i);
+        return nacl.util.encodeBase64(
+            nacl.hash(i)
+        );
+    }
+    var sub = '';
+    for(var k=0; k<i.length; k++){
+        sub += hash(i[k]);
+    }
+    return hash(sub);
 }
 
 module.exports.decrypt = function(ciphertext, password, binaryOutput){
